@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 
@@ -25,6 +26,17 @@
       <a href="#seguimiento">Seguimiento</a>
       <a href="#faq">FAQ</a>
       <a href="#contacto">Contacto</a>
+      <div class="nav-auth" id="navAuth">
+        <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">Iniciar sesión</button>
+        <div class="nav-user hidden" id="navUser">
+          <span class="nav-user-name" id="navUserName"></span>
+          <button class="nav-user-menu-btn" onclick="toggleUserMenu()">▾</button>
+          <div class="nav-user-menu hidden" id="navUserMenu">
+            <button onclick="showMiCuenta()">Mi cuenta</button>
+            <button onclick="authSignOut()">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
       <a href="https://sensepot.net" class="nav-back">← sensepot.net</a>
     </div>
   </div>
@@ -368,6 +380,68 @@
   </div>
 </section>
 
+<!-- ── MI CUENTA ─────────────────────────────────────────────── -->
+<section id="mi-cuenta" class="hidden">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-eyebrow">Panel personal</span>
+      <h2 class="section-title">Mi cuenta</h2>
+      <p class="section-sub" id="mcWelcome"></p>
+    </div>
+    <div id="mcAppointments" class="mc-appointments">
+      <div class="mc-loading" id="mcLoading">Cargando tus citas…</div>
+      <div id="mcList" class="mc-list"></div>
+      <div id="mcEmpty" class="mc-empty hidden">
+        <p>Aún no tienes citas registradas.</p>
+        <button class="btn-next" onclick="scrollTo('agendar')">Agendar primera cita</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AUTH MODAL ─────────────────────────────────────────────── -->
+<div class="modal-overlay hidden" id="authModal" onclick="closeAuthOnOverlay(event)">
+  <div class="modal-box" id="authBox">
+    <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Iniciar sesión</button>
+      <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Crear cuenta</button>
+    </div>
+
+    <!-- Login -->
+    <form id="loginForm" class="auth-form" onsubmit="authLogin(event)">
+      <div class="field-group">
+        <label class="field-label" for="loginEmail">Correo electrónico</label>
+        <input class="field-input" type="email" id="loginEmail" placeholder="tu@correo.com" required/>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="loginPwd">Contraseña</label>
+        <input class="field-input" type="password" id="loginPwd" placeholder="••••••••" required/>
+      </div>
+      <div class="auth-error hidden" id="loginError"></div>
+      <button type="submit" class="btn-next" id="loginBtn">Iniciar sesión</button>
+    </form>
+
+    <!-- Signup -->
+    <form id="signupForm" class="auth-form hidden" onsubmit="authSignup(event)">
+      <div class="field-group">
+        <label class="field-label" for="signupName">Nombre completo</label>
+        <input class="field-input" type="text" id="signupName" placeholder="Tu nombre" required/>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="signupEmail">Correo electrónico</label>
+        <input class="field-input" type="email" id="signupEmail" placeholder="tu@correo.com" required/>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="signupPwd">Contraseña <span class="field-optional">(mín. 8 caracteres)</span></label>
+        <input class="field-input" type="password" id="signupPwd" placeholder="••••••••" minlength="8" required/>
+      </div>
+      <div class="auth-error hidden" id="signupError"></div>
+      <button type="submit" class="btn-next" id="signupBtn">Crear cuenta</button>
+    </form>
+  </div>
+</div>
+
 <!-- ── FOOTER ────────────────────────────────────────────────── -->
 <footer id="footer">
   <div class="footer-inner">
@@ -398,6 +472,10 @@
     </div>
     <div class="chat-messages" id="chatMessages"></div>
     <div class="chat-options" id="chatOptions"></div>
+    <form class="chat-input-row" id="chatInputForm" onsubmit="sendChatMsg(event)">
+      <input class="chat-input" type="text" id="chatInput" placeholder="Escribe tu pregunta…" autocomplete="off"/>
+      <button type="submit" class="chat-send" aria-label="Enviar">➤</button>
+    </form>
   </div>
   <button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Abrir asistente">
     <span class="fab-icon" id="fabIcon">💬</span>

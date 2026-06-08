@@ -769,6 +769,261 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cur
 }
 .fab-icon { font-size: 18px; }
 
+/* ── NAV AUTH ────────────────────────────────────── */
+.nav-auth { position: relative; }
+.nav-auth-btn {
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font);
+  color: var(--text2);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.nav-auth-btn:hover { border-color: var(--accent); color: var(--accent); }
+.nav-user { display: flex; align-items: center; gap: 6px; position: relative; }
+.nav-user-name { font-size: 13px; color: var(--text); font-weight: 500; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-user-menu-btn { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 12px; padding: 2px 4px; font-family: var(--font); }
+.nav-user-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #161616;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-s);
+  min-width: 160px;
+  z-index: 200;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+}
+.nav-user-menu button {
+  display: block;
+  width: 100%;
+  padding: 11px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text2);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-user-menu button:hover { background: var(--bg3); color: var(--text); }
+
+/* ── AUTH MODAL ──────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.hidden { display: none; }
+.modal-box {
+  background: #111;
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 36px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  animation: fadeUp 0.25s ease;
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 22px;
+  cursor: pointer;
+  font-family: sans-serif;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--text); }
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.auth-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font);
+  color: var(--text2);
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.auth-form { display: flex; flex-direction: column; gap: 18px; }
+.auth-form.hidden { display: none; }
+.auth-error {
+  font-size: 13px;
+  color: var(--danger);
+  padding: 10px 14px;
+  background: rgba(224,85,85,0.07);
+  border: 1px solid rgba(224,85,85,0.2);
+  border-radius: var(--radius-s);
+}
+.auth-error.hidden { display: none; }
+
+/* ── MI CUENTA ───────────────────────────────────── */
+#mi-cuenta { background: var(--bg2); }
+#mi-cuenta.hidden { display: none; }
+.mc-loading { color: var(--text2); font-size: 14px; padding: 20px 0; }
+.mc-empty { padding: 40px 0; text-align: center; }
+.mc-empty p { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
+.mc-list { display: flex; flex-direction: column; gap: 16px; }
+
+.mc-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+.mc-card:hover { border-color: var(--border2); }
+.mc-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+.mc-card-folio { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--accent); }
+.mc-card-service { font-size: 16px; font-weight: 500; color: var(--text); }
+.mc-card-date { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+.mc-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+.mc-status-badge--agendado   { background: rgba(0,198,198,0.1);  color: var(--accent); border: 1px solid rgba(0,198,198,0.2); }
+.mc-status-badge--confirmado { background: rgba(100,200,100,0.1); color: #7dde7d;      border: 1px solid rgba(100,200,100,0.2); }
+.mc-status-badge--en_camino  { background: rgba(255,180,0,0.1);   color: #ffd060;      border: 1px solid rgba(255,180,0,0.2); }
+.mc-status-badge--en_proceso { background: rgba(100,100,255,0.1); color: #8888ff;      border: 1px solid rgba(100,100,255,0.2); }
+.mc-status-badge--completado { background: rgba(0,200,100,0.1);   color: #5de89e;      border: 1px solid rgba(0,200,100,0.2); }
+.mc-status-badge--cancelado  { background: rgba(224,85,85,0.1);   color: #e05555;      border: 1px solid rgba(224,85,85,0.2); }
+
+.mc-timeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 16px 0 0;
+  overflow-x: auto;
+}
+.mc-tl-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.mc-tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border2);
+  border: 2px solid var(--border2);
+  transition: background 0.3s;
+}
+.mc-tl-dot.done { background: var(--accent); border-color: var(--accent); }
+.mc-tl-dot.current { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 8px rgba(0,198,198,0.5); }
+.mc-tl-label { font-size: 10px; color: var(--text3); text-align: center; max-width: 64px; line-height: 1.3; }
+.mc-tl-label.active { color: var(--accent); }
+.mc-tl-line { flex: 1; height: 2px; background: var(--border2); min-width: 20px; }
+.mc-tl-line.done { background: var(--accent); }
+
+.mc-rate-btn {
+  margin-top: 14px;
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-s);
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font);
+  color: var(--text2);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.mc-rate-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.mc-stars { display: flex; gap: 6px; margin: 8px 0; }
+.mc-star {
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--border2);
+  transition: color 0.15s;
+  line-height: 1;
+}
+.mc-star.selected, .mc-star:hover { color: #ffd060; }
+
+/* ── CHAT INPUT ──────────────────────────────────── */
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--border);
+}
+.chat-input {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--accent); }
+.chat-input::placeholder { color: var(--text3); }
+.chat-send {
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.chat-send:hover { background: #00dfdf; }
+
+/* ── TRACKING RESULT (mejorado) ──────────────────── */
+.tracking-card {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-s);
+  padding: 18px;
+  margin-bottom: 10px;
+}
+.tracking-card-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.tracking-folio { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--accent); }
+.tracking-service { font-size: 15px; font-weight: 500; color: var(--text); }
+.tracking-date { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
 /* ── RESPONSIVE ──────────────────────────────────── */
 @media (max-width: 767px) {
   #hero { min-height: 100svh; }
