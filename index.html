@@ -24,6 +24,7 @@
       <a href="#agendar">Agendar</a>
       <a href="#seguimiento">Seguimiento</a>
       <a href="#faq">FAQ</a>
+      <a href="#contacto">Contacto</a>
       <a href="https://sensepot.net" class="nav-back">← sensepot.net</a>
     </div>
   </div>
@@ -81,7 +82,9 @@
     </div>
 
     <!-- FORM -->
-    <form id="scheduleForm" action="https://formspree.io/f/REPLACE_ME" method="POST" novalidate>
+    <form id="scheduleForm" action="https://formspree.io/f/FORMSPREE_ID" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="Nueva cita agendada — Sensepot Service"/>
+      <input type="hidden" name="origen" value="Formulario de agendamiento"/>
 
       <!-- Step 1 -->
       <div class="form-step" id="step1">
@@ -330,6 +333,41 @@
   </div>
 </section>
 
+<!-- ── CONTACTO ──────────────────────────────────────────────── -->
+<section id="contacto">
+  <div class="section-inner section-inner--narrow">
+    <div class="section-header">
+      <span class="section-eyebrow">Escríbenos</span>
+      <h2 class="section-title">¿Tienes alguna duda?</h2>
+      <p class="section-sub">Si no encontraste lo que buscas, envíanos un mensaje y te respondemos en menos de 24 horas.</p>
+    </div>
+    <form id="contactForm" class="contact-form" novalidate>
+      <input type="hidden" name="_subject" value="Mensaje desde service.sensepot.net"/>
+      <input type="hidden" name="origen" value="Formulario de contacto"/>
+      <div class="contact-form-grid">
+        <div class="field-group">
+          <label class="field-label" for="c-nombre">Nombre</label>
+          <input class="field-input" type="text" id="c-nombre" name="nombre" placeholder="Tu nombre" required/>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="c-email">Correo electrónico</label>
+          <input class="field-input" type="email" id="c-email" name="email" placeholder="tu@correo.com" required/>
+        </div>
+        <div class="field-group field-group--full">
+          <label class="field-label" for="c-mensaje">Mensaje</label>
+          <textarea class="field-input field-textarea" id="c-mensaje" name="mensaje" placeholder="Cuéntanos en qué podemos ayudarte..." required></textarea>
+        </div>
+      </div>
+      <div id="contactError" class="form-inline-error"></div>
+      <button type="submit" class="btn-next" id="contactSubmitBtn">Enviar mensaje</button>
+      <div id="contactSuccess" class="contact-success hidden">
+        <span class="contact-success-icon">✓</span>
+        <span>Mensaje enviado. Te responderemos en menos de 24 horas.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
 <!-- ── FOOTER ────────────────────────────────────────────────── -->
 <footer id="footer">
   <div class="footer-inner">
@@ -339,7 +377,7 @@
     </div>
     <div class="footer-links">
       <a href="https://sensepot.net">sensepot.net</a>
-      <a href="mailto:hola@sensepot.net">hola@sensepot.net</a>
+      <span class="footer-email">service@sensepot.net</span>
     </div>
     <p class="footer-copy">© 2026 Sensepot. Todos los derechos reservados.</p>
   </div>

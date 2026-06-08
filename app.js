@@ -1,6 +1,10 @@
 /* ══════════════════════════════════════════════════
    Sensepot Service — app.js
+   ──────────────────────────────────────────────────
+   CONFIGURACIÓN: reemplaza FORMSPREE_ID con tu
+   form ID de formspree.io (ej. "xabc1234")
    ══════════════════════════════════════════════════ */
+var FORMSPREE_ID = 'FORMSPREE_ID';
 
 /* ── SCROLL UTIL ─────────────────────────────────── */
 function scrollTo(id) {
@@ -92,14 +96,14 @@ document.getElementById('scheduleForm').addEventListener('submit', function(e) {
 
   const data = new FormData(this);
 
-  /* — Si aún no tienes Formspree, muestra éxito de inmediato — */
-  const action = this.action;
-  if (action.includes('REPLACE_ME')) {
+  if (FORMSPREE_ID === 'FORMSPREE_ID') {
     simulateSuccess(email);
     return;
   }
 
-  fetch(action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+  fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+    method: 'POST', body: data, headers: { Accept: 'application/json' }
+  })
     .then(function(r) {
       if (r.ok) { simulateSuccess(email); }
       else { btn.textContent = 'Confirmar cita'; btn.disabled = false; flashError('Hubo un error al enviar. Intenta de nuevo.'); }
@@ -114,6 +118,45 @@ function simulateSuccess(email) {
   document.querySelectorAll('.form-step').forEach(function(el) { el.classList.add('hidden'); });
   document.getElementById('stepSuccess').classList.remove('hidden');
   document.getElementById('stepSuccess').style.animation = 'fadeUp 0.35s ease';
+}
+
+/* ── CONTACT FORM ────────────────────────────────── */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var nombre  = document.getElementById('c-nombre').value.trim();
+  var email   = document.getElementById('c-email').value.trim();
+  var mensaje = document.getElementById('c-mensaje').value.trim();
+  var errEl   = document.getElementById('contactError');
+
+  errEl.textContent = '';
+  if (!nombre || !email || !mensaje) { errEl.textContent = 'Completa todos los campos.'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'El correo no parece válido.'; return; }
+
+  var btn = document.getElementById('contactSubmitBtn');
+  btn.textContent = 'Enviando…';
+  btn.disabled = true;
+
+  var data = new FormData(this);
+
+  if (FORMSPREE_ID === 'FORMSPREE_ID') {
+    showContactSuccess();
+    return;
+  }
+
+  fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+    method: 'POST', body: data, headers: { Accept: 'application/json' }
+  })
+    .then(function(r) {
+      if (r.ok) { showContactSuccess(); }
+      else { btn.textContent = 'Enviar mensaje'; btn.disabled = false; errEl.textContent = 'Error al enviar. Intenta de nuevo.'; }
+    })
+    .catch(function() { btn.textContent = 'Enviar mensaje'; btn.disabled = false; errEl.textContent = 'Sin conexión. Intenta de nuevo.'; });
+});
+
+function showContactSuccess() {
+  document.getElementById('contactForm').querySelector('.contact-form-grid').style.display = 'none';
+  document.getElementById('contactSubmitBtn').style.display = 'none';
+  document.getElementById('contactSuccess').classList.remove('hidden');
 }
 
 /* ── TRACKING ────────────────────────────────────── */
@@ -254,10 +297,10 @@ function flowOther() {
 function flowEscalate() {
   botMsg('Entendido. Para este caso lo mejor es hablar con nuestro equipo. 🙌');
   setTimeout(function() {
-    botMsg('Puedes agendar una visita técnica o escribirnos por correo a hola@sensepot.net y te respondemos en menos de 24 h.');
+    botMsg('Puedes agendar una visita técnica o enviarnos un mensaje directo — te respondemos en menos de 24 h.');
     showOptions([
       { label: '📅 Agendar visita técnica', fn: function() { userSay('Agendar visita'); closeChat(); scrollTo('agendar'); }},
-      { label: '✉️ Enviar correo',          fn: function() { userSay('Enviar correo'); window.location.href = 'mailto:hola@sensepot.net'; }},
+      { label: '✉️ Enviarnos un mensaje',   fn: function() { userSay('Enviar mensaje'); closeChat(); scrollTo('contacto'); }},
       { label: 'Volver al inicio',          fn: function() { userSay('Volver'); resetChatFlow(); }},
     ]);
   }, 400);
