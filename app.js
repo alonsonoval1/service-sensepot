@@ -4,7 +4,7 @@
    CONFIGURACIÓN: reemplaza FORMSPREE_ID con tu
    form ID de formspree.io (ej. "xabc1234")
    ══════════════════════════════════════════════════ */
-var FORMSPREE_ID = 'FORMSPREE_ID';
+var FORMSPREE_ID = 'mrevqwag';
 
 /* ── SCROLL UTIL ─────────────────────────────────── */
 function scrollTo(id) {
