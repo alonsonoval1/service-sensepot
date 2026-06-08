@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sensepot Service — Soporte y Agendamiento</title>
+  <meta name="description" content="Agenda tu cita de instalación o servicio técnico, resuelve dudas y chatea con el asistente Sensepot."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="https://sensepot.net" class="nav-logo" aria-label="Sensepot">
+      <img src="https://sensepot.net/sensepot-logo.png" alt="S" width="28" height="28"/>
+      <span class="nav-brand">sensepot</span>
+      <span class="nav-service-badge">service</span>
+    </a>
+    <div class="nav-links">
+      <a href="#agendar">Agendar</a>
+      <a href="#seguimiento">Seguimiento</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://sensepot.net" class="nav-back">← sensepot.net</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Centro de servicio</p>
+    <h1 class="hero-title">¿Cómo podemos<br/><span class="hero-accent">ayudarte hoy?</span></h1>
+    <p class="hero-sub">Agenda una cita, da seguimiento a tu servicio o resuelve dudas en segundos.</p>
+    <div class="action-cards">
+      <button class="action-card" onclick="scrollTo('agendar')">
+        <span class="action-icon">📅</span>
+        <span class="action-label">Agendar cita</span>
+        <span class="action-desc">Instalación, mantenimiento o revisión</span>
+      </button>
+      <button class="action-card action-card--accent" onclick="openChat()">
+        <span class="action-icon">🤖</span>
+        <span class="action-label">Asistente Sensepot</span>
+        <span class="action-desc">Resuelve problemas al instante</span>
+      </button>
+      <button class="action-card" onclick="scrollTo('faq')">
+        <span class="action-icon">💡</span>
+        <span class="action-label">Preguntas frecuentes</span>
+        <span class="action-desc">Respuestas rápidas sin espera</span>
+      </button>
+    </div>
+  </div>
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+</section>
+
+<!-- ── AGENDAR ───────────────────────────────────────────────── -->
+<section id="agendar">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-eyebrow">Servicio técnico</span>
+      <h2 class="section-title">Agenda tu cita</h2>
+      <p class="section-sub">Sin llamadas, sin filas. Elige el tipo de servicio, la fecha y tus datos en 3 pasos.</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="form-progress" aria-label="Pasos del formulario">
+      <div class="progress-step active" data-step="1">
+        <span class="ps-num">1</span><span class="ps-label">Servicio</span>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-step" data-step="2">
+        <span class="ps-num">2</span><span class="ps-label">Fecha</span>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-step" data-step="3">
+        <span class="ps-num">3</span><span class="ps-label">Contacto</span>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <form id="scheduleForm" action="https://formspree.io/f/REPLACE_ME" method="POST" novalidate>
+
+      <!-- Step 1 -->
+      <div class="form-step" id="step1">
+        <h3 class="step-title">¿Qué tipo de servicio necesitas?</h3>
+        <div class="service-grid">
+          <label class="service-option">
+            <input type="radio" name="servicio" value="Instalación nueva" required/>
+            <span class="service-card">
+              <span class="service-icon">🏠</span>
+              <span class="service-name">Instalación nueva</span>
+              <span class="service-detail">Primer equipo Sensepot en tu hogar</span>
+            </span>
+          </label>
+          <label class="service-option">
+            <input type="radio" name="servicio" value="Mantenimiento"/>
+            <span class="service-card">
+              <span class="service-icon">🔧</span>
+              <span class="service-name">Mantenimiento</span>
+              <span class="service-detail">Revisión periódica de tu sistema</span>
+            </span>
+          </label>
+          <label class="service-option">
+            <input type="radio" name="servicio" value="Revisión técnica"/>
+            <span class="service-card">
+              <span class="service-icon">🔍</span>
+              <span class="service-name">Revisión técnica</span>
+              <span class="service-detail">Diagnóstico de fallo o problema</span>
+            </span>
+          </label>
+          <label class="service-option">
+            <input type="radio" name="servicio" value="Consulta"/>
+            <span class="service-card">
+              <span class="service-icon">💬</span>
+              <span class="service-name">Consulta</span>
+              <span class="service-detail">Asesoría antes de contratar</span>
+            </span>
+          </label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextStep(1)">Continuar →</button>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step hidden" id="step2">
+        <h3 class="step-title">¿Cuándo te queda mejor?</h3>
+        <div class="date-time-grid">
+          <div class="field-group">
+            <label class="field-label" for="fecha">Fecha</label>
+            <input class="field-input" type="date" id="fecha" name="fecha" required/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Horario preferido</label>
+            <div class="time-slots">
+              <label class="time-slot">
+                <input type="radio" name="horario" value="9:00 – 11:00 am" required/>
+                <span>9:00 – 11:00 am</span>
+              </label>
+              <label class="time-slot">
+                <input type="radio" name="horario" value="11:00 am – 1:00 pm"/>
+                <span>11:00 am – 1:00 pm</span>
+              </label>
+              <label class="time-slot">
+                <input type="radio" name="horario" value="2:00 – 4:00 pm"/>
+                <span>2:00 – 4:00 pm</span>
+              </label>
+              <label class="time-slot">
+                <input type="radio" name="horario" value="4:00 – 6:00 pm"/>
+                <span>4:00 – 6:00 pm</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="step-nav">
+          <button type="button" class="btn-back" onclick="prevStep(2)">← Atrás</button>
+          <button type="button" class="btn-next" onclick="nextStep(2)">Continuar →</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step hidden" id="step3">
+        <h3 class="step-title">Tus datos de contacto</h3>
+        <div class="contact-grid">
+          <div class="field-group">
+            <label class="field-label" for="nombre">Nombre completo</label>
+            <input class="field-input" type="text" id="nombre" name="nombre" placeholder="Ej. Ana García" required/>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="email">Correo electrónico</label>
+            <input class="field-input" type="email" id="email" name="email" placeholder="tu@correo.com" required/>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="telefono">Teléfono</label>
+            <input class="field-input" type="tel" id="telefono" name="telefono" placeholder="+52 55 0000 0000" required/>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="direccion">Dirección</label>
+            <input class="field-input" type="text" id="direccion" name="direccion" placeholder="Calle, colonia, ciudad" required/>
+          </div>
+          <div class="field-group field-group--full">
+            <label class="field-label" for="notas">Notas adicionales <span class="field-optional">(opcional)</span></label>
+            <textarea class="field-input field-textarea" id="notas" name="notas" placeholder="Describe brevemente el problema o equipo que tienes..."></textarea>
+          </div>
+        </div>
+        <div class="step-nav">
+          <button type="button" class="btn-back" onclick="prevStep(3)">← Atrás</button>
+          <button type="submit" class="btn-submit">Confirmar cita</button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="form-step hidden" id="stepSuccess">
+        <div class="success-state">
+          <div class="success-icon">✓</div>
+          <h3 class="success-title">¡Cita agendada!</h3>
+          <p class="success-msg">Recibirás un correo de confirmación en breve. Nuestro equipo se comunicará contigo para confirmar los detalles.</p>
+          <p class="success-folio" id="successFolio"></p>
+          <button type="button" class="btn-next" onclick="resetForm()">Agendar otra cita</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<!-- ── SEGUIMIENTO ───────────────────────────────────────────── -->
+<section id="seguimiento">
+  <div class="section-inner section-inner--narrow">
+    <div class="section-header">
+      <span class="section-eyebrow">Estado de tu servicio</span>
+      <h2 class="section-title">Seguimiento de cita</h2>
+      <p class="section-sub">Ingresa tu correo o número de folio para ver el estado de tu solicitud.</p>
+    </div>
+    <div class="tracking-box">
+      <div class="tracking-input-row">
+        <input class="field-input" type="text" id="trackingInput" placeholder="Correo o número de folio" aria-label="Buscar cita"/>
+        <button class="btn-track" onclick="trackTicket()">Buscar</button>
+      </div>
+      <div id="trackingResult" class="tracking-result hidden"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ───────────────────────────────────────────────────── -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-eyebrow">Ayuda rápida</span>
+      <h2 class="section-title">Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-search-wrap">
+      <input class="faq-search" type="search" placeholder="Buscar pregunta..." id="faqSearch" oninput="filterFaq(this.value)" aria-label="Buscar en FAQ"/>
+    </div>
+    <div class="faq-categories">
+      <button class="faq-cat active" onclick="setFaqCat(this,'all')">Todas</button>
+      <button class="faq-cat" onclick="setFaqCat(this,'app')">App</button>
+      <button class="faq-cat" onclick="setFaqCat(this,'instalacion')">Instalación</button>
+      <button class="faq-cat" onclick="setFaqCat(this,'dispositivos')">Dispositivos</button>
+      <button class="faq-cat" onclick="setFaqCat(this,'cuenta')">Cuenta</button>
+    </div>
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item" data-cat="app">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¿La app Sensepot no abre o se cierra sola?</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>Intenta cerrar la app por completo y volver a abrirla. Si el problema persiste, ve a Configuración → Aplicaciones → Sensepot y toca "Forzar cierre". Si sigue fallando, desinstala y vuelve a instalar desde la tienda de aplicaciones.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-cat="app">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¿Por qué la app no detecta mis dispositivos?</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>Asegúrate de que tu teléfono y los dispositivos Sensepot estén en la misma red WiFi (2.4 GHz). Reinicia el router y vuelve a intentar. Si usas VPN, desactívala temporalmente.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-cat="instalacion">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¿Cuánto tarda una instalación estándar?</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>Una instalación básica toma entre 2 y 4 horas dependiendo del número de dispositivos y la configuración del hogar. Instalaciones completas pueden tomar hasta un día.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-cat="instalacion">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¿Qué necesito tener listo para la visita técnica?</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>Ten a la mano el nombre y contraseña de tu red WiFi, acceso a los contactos eléctricos donde se instalarán los dispositivos, y la app Sensepot descargada en tu teléfono.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-cat="dispositivos">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>Un dispositivo no responde desde la app</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>Desconecta el dispositivo de la corriente 10 segundos y vuelve a conectarlo. Espera 30 segundos para que se reconecte. Si sigue sin aparecer, elimínalo de la app y vuelve a configurarlo desde cero en Ajustes → Agregar dispositivo.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-cat="dispositivos">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¿Los dispositivos funcionan sin internet?</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>Sí, los automatismos locales (rutinas configuradas) siguen funcionando sin internet. El control remoto desde la app y las notificaciones requieren conexión.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-cat="cuenta">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¿Cómo comparto el acceso con mi familia?</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>Desde la app, ve a Hogar → Miembros → Invitar. Puedes asignar roles (administrador, usuario) y controlar qué dispositivos puede ver cada persona.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-cat="cuenta">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¿Olvidé mi contraseña, cómo la recupero?</span>
+          <span class="faq-chevron">›</span>
+        </button>
+        <div class="faq-a">
+          <p>En la pantalla de inicio de sesión de la app toca "¿Olvidaste tu contraseña?" e ingresa tu correo registrado. Recibirás un enlace para restablecerla en menos de 5 minutos.</p>
+        </div>
+      </div>
+
+      <div class="faq-no-results hidden" id="faqNoResults">
+        <p>No encontramos resultados para esa búsqueda. Prueba con otras palabras o <button class="link-btn" onclick="openChat()">chatea con el asistente</button>.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://sensepot.net/sensepot-logo.png" alt="Sensepot" width="22" height="22" style="mix-blend-mode:screen;opacity:.7"/>
+      <span>sensepot service</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://sensepot.net">sensepot.net</a>
+      <a href="mailto:hola@sensepot.net">hola@sensepot.net</a>
+    </div>
+    <p class="footer-copy">© 2026 Sensepot. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<!-- ── CHATBOT ───────────────────────────────────────────────── -->
+<div id="chatWidget" class="chat-widget" aria-live="polite">
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <span class="chat-avatar">🤖</span>
+        <div>
+          <span class="chat-name">Asistente Sensepot</span>
+          <span class="chat-status">En línea</span>
+        </div>
+      </div>
+      <button class="chat-close" onclick="closeChat()" aria-label="Cerrar chat">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-options" id="chatOptions"></div>
+  </div>
+  <button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Abrir asistente">
+    <span class="fab-icon" id="fabIcon">💬</span>
+    <span class="fab-label">Asistente</span>
+  </button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
