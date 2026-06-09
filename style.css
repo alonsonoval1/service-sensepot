@@ -1048,7 +1048,9 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cur
   .action-icon { font-size: 22px; }
 
   .nav-links > a:not(.nav-back) { display: none; }
+  .nav-back { display: none; }
   .nav-links > .nav-auth { margin-left: auto; }
+  .nav-auth-btn { white-space: nowrap; font-size: 12px; padding: 6px 12px; }
 
   .service-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
@@ -1080,4 +1082,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cur
   .section-title { letter-spacing: -0.5px; }
   .mc-tl-label { display: none; }
   .mc-tl-dot { width: 8px; height: 8px; }
+  .nav-brand { display: none; }
+  .nav-service-badge { display: none; }
+  .nav-inner { padding: 0 16px; gap: 12px; }
 }
