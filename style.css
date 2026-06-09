@@ -810,6 +810,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cur
   overflow: hidden;
   box-shadow: 0 12px 32px rgba(0,0,0,0.5);
 }
+.nav-user-menu.hidden { display: none; }
 .nav-user-menu button {
   display: block;
   width: 100%;
