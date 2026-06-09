@@ -28,19 +28,19 @@ sb.auth.onAuthStateChange(function(event, session) {
 });
 
 function updateNavAuth() {
-  var btn  = document.getElementById('navAuthBtn');
-  var user = document.getElementById('navUser');
-  var name = document.getElementById('navUserName');
+  var label = document.getElementById('navAuthLabel');
+  var menu  = document.getElementById('navUserMenu');
   if (currentUser) {
-    btn.classList.add('hidden');
-    user.classList.remove('hidden');
     var displayName = currentUser.user_metadata && currentUser.user_metadata.nombre
       ? currentUser.user_metadata.nombre.split(' ')[0]
       : currentUser.email.split('@')[0];
-    name.textContent = displayName;
+    label.textContent = displayName;
+    menu.innerHTML =
+      '<button onclick="showMiCuenta()">Mi cuenta</button>' +
+      '<button onclick="authSignOut()">Cerrar sesión</button>';
   } else {
-    btn.classList.remove('hidden');
-    user.classList.add('hidden');
+    label.textContent = 'Cuenta';
+    menu.innerHTML = '<button onclick="openAuthModal();closeUserMenu()">Iniciar sesión</button>';
   }
 }
 
@@ -49,12 +49,20 @@ function closeAuthModal() { document.getElementById('authModal').classList.add('
 function closeAuthOnOverlay(e) { if (e.target.id === 'authModal') closeAuthModal(); }
 
 function toggleUserMenu() {
-  document.getElementById('navUserMenu').classList.toggle('hidden');
+  var menu = document.getElementById('navUserMenu');
+  var btn  = document.getElementById('navAuthBtn');
+  var opening = menu.classList.contains('hidden');
+  menu.classList.toggle('hidden');
+  btn.classList.toggle('open', opening);
+}
+function closeUserMenu() {
+  document.getElementById('navUserMenu').classList.add('hidden');
+  document.getElementById('navAuthBtn').classList.remove('open');
 }
 document.addEventListener('click', function(e) {
   var menu = document.getElementById('navUserMenu');
   if (menu && !menu.classList.contains('hidden')) {
-    if (!document.getElementById('navUser').contains(e.target)) menu.classList.add('hidden');
+    if (!document.getElementById('navAuth').contains(e.target)) closeUserMenu();
   }
 });
 
@@ -114,11 +122,11 @@ async function authSignup(e) {
 
 async function authSignOut() {
   await sb.auth.signOut();
-  document.getElementById('navUserMenu').classList.add('hidden');
+  closeUserMenu();
 }
 
 function showMiCuenta() {
-  document.getElementById('navUserMenu').classList.add('hidden');
+  closeUserMenu();
   scrollTo('mi-cuenta');
 }
 

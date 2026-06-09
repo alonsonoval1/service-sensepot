@@ -27,14 +27,12 @@
       <a href="#faq">FAQ</a>
       <a href="#contacto">Contacto</a>
       <div class="nav-auth" id="navAuth">
-        <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">Iniciar sesión</button>
-        <div class="nav-user hidden" id="navUser">
-          <span class="nav-user-name" id="navUserName"></span>
-          <button class="nav-user-menu-btn" onclick="toggleUserMenu()">▾</button>
-          <div class="nav-user-menu hidden" id="navUserMenu">
-            <button onclick="showMiCuenta()">Mi cuenta</button>
-            <button onclick="authSignOut()">Cerrar sesión</button>
-          </div>
+        <button class="nav-auth-btn" id="navAuthBtn" onclick="toggleUserMenu()">
+          <span id="navAuthLabel">Cuenta</span>
+          <span class="nav-auth-chevron">▾</span>
+        </button>
+        <div class="nav-user-menu hidden" id="navUserMenu">
+          <button onclick="openAuthModal();closeUserMenu()">Iniciar sesión</button>
         </div>
       </div>
       <a href="https://sensepot.net" class="nav-back">← sensepot.net</a>

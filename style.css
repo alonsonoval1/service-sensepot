@@ -779,18 +779,25 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cur
   background: none;
   border: 1px solid var(--border2);
   border-radius: 6px;
-  padding: 6px 14px;
+  padding: 6px 12px;
   font-size: 12px;
   font-weight: 500;
   font-family: var(--font);
   color: var(--text2);
   cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   transition: border-color 0.2s, color 0.2s;
 }
 .nav-auth-btn:hover { border-color: var(--accent); color: var(--accent); }
-.nav-user { display: flex; align-items: center; gap: 6px; position: relative; }
-.nav-user-name { font-size: 13px; color: var(--text); font-weight: 500; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nav-user-menu-btn { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 12px; padding: 2px 4px; font-family: var(--font); }
+.nav-auth-chevron {
+  font-size: 9px;
+  opacity: 0.6;
+  transition: transform 0.2s;
+}
+.nav-auth-btn.open .nav-auth-chevron { transform: rotate(180deg); }
 .nav-user-menu {
   position: absolute;
   top: calc(100% + 8px);
